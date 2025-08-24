@@ -1,6 +1,33 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // App router is available by default in Next.js 13+
-}
+  experimental: {
+    appDir: true,
+  },
+  async headers() {
+    return [
+      {
+        source: '/api/messages',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '0',
+          },
+          {
+            key: 'X-Vercel-Cache',
+            value: 'BYPASS',
+          },
+        ],
+      },
+    ];
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

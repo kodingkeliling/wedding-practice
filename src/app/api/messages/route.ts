@@ -6,7 +6,11 @@ export async function GET(request: NextRequest) {
   try {
     console.log('Fetching messages from:', SPREADSHEET_API_URL);
     
-    const response = await fetch(SPREADSHEET_API_URL, {
+    // Add timestamp to Google Apps Script URL to bypass any caching
+    const timestamp = Date.now();
+    const urlWithCacheBust = `${SPREADSHEET_API_URL}${SPREADSHEET_API_URL.includes('?') ? '&' : '?'}t=${timestamp}`;
+    
+    const response = await fetch(urlWithCacheBust, {
       method: 'GET',
       headers: {
         'Accept-Language': 'id-ID',
@@ -58,12 +62,14 @@ export async function GET(request: NextRequest) {
     // Add aggressive cache control headers to prevent Vercel caching
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0',
         'Pragma': 'no-cache',
         'Expires': '0',
         'Surrogate-Control': 'no-store',
         'Vary': '*',
         'Last-Modified': new Date().toUTCString(),
+        'ETag': `"${Date.now()}"`,
+        'X-Vercel-Cache': 'BYPASS',
       },
     });
   } catch (error) {
