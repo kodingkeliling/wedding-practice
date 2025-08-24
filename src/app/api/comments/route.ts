@@ -50,7 +50,16 @@ export async function POST(request: NextRequest) {
       console.log('RSVP submitted to Google Apps Script:', result);
 
       // Extract the actual message data from the Google Apps Script response
-      const messageData = result.data || result;
+      let messageData = result.data || result;
+      
+      // Ensure the field names match the spreadsheet (updateAt instead of updatedAt)
+      if (messageData.updatedAt) {
+        messageData = {
+          ...messageData,
+          updateAt: messageData.updatedAt
+        };
+        delete messageData.updatedAt;
+      }
 
       return NextResponse.json(
         {
@@ -84,7 +93,7 @@ export async function POST(request: NextRequest) {
           name: commentData.name,
           content: commentData.message,
           createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          updateAt: new Date().toISOString(), // Use updateAt to match spreadsheet
         }
       },
       { status: 200 }
