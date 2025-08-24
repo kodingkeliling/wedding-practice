@@ -55,12 +55,15 @@ export async function GET(request: NextRequest) {
       data.data = validMessages;
     }
     
-    // Add cache control headers to prevent caching
+    // Add aggressive cache control headers to prevent Vercel caching
     return NextResponse.json(data, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
         'Pragma': 'no-cache',
         'Expires': '0',
+        'Surrogate-Control': 'no-store',
+        'Vary': '*',
+        'Last-Modified': new Date().toUTCString(),
       },
     });
   } catch (error) {

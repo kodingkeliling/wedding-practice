@@ -2,12 +2,17 @@ import { WeddingInvitationData, CommentFormData, WeddingMessage } from '@/types'
 
 export async function fetchWeddingMessages(): Promise<WeddingInvitationData> {
   try {
-    const response = await fetch('/api/messages', {
+    // Add cache-busting parameter to ensure fresh data
+    const timestamp = Date.now();
+    const response = await fetch(`/api/messages?t=${timestamp}`, {
       method: 'GET',
       headers: {
         'Accept-Language': 'id-ID',
         'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
