@@ -29,21 +29,19 @@ export async function GET(request: NextRequest) {
     const data = await response.json();
     console.log('Received data:', data);
     
-    // Filter out invalid messages
+    // Filter out invalid messages with looser criteria
     if (data.data && Array.isArray(data.data)) {
       const validMessages = data.data.filter((message: any) => {
-        // Check if message has valid data
-        const hasValidName = message.name && message.name.trim() !== '' && message.name !== 'test';
-        const hasValidContent = message.content && message.content.trim() !== '' && message.content !== 'test';
-        const hasValidDate = message.createdAt && 
-                           message.createdAt !== 'test' && 
-                           !isNaN(new Date(message.createdAt).getTime());
-        const hasValidId = message.id && message.id.trim() !== '' && message.id !== 'test';
+        // Basic validation - only filter out completely invalid messages
+        const hasId = message.id && message.id.trim() !== '';
+        const hasName = message.name && message.name.trim() !== '';
+        const hasContent = message.content && message.content.trim() !== '';
         
-        // Additional check for test data patterns
-        const isNotTestData = !(message.name === 'test' && message.content === 'test' && message.createdAt === 'test');
+        // Only filter out messages that are completely empty or have test data
+        const isNotTestData = !(message.name === 'test' && message.content === 'test');
+        const isNotCompletelyEmpty = hasId && hasName && hasContent;
         
-        const isValid = hasValidName && hasValidContent && hasValidDate && hasValidId && isNotTestData;
+        const isValid = isNotCompletelyEmpty && isNotTestData;
         
         if (!isValid) {
           console.log('Filtered out invalid message:', message);
@@ -53,6 +51,7 @@ export async function GET(request: NextRequest) {
       });
       
       console.log(`Filtered ${data.data.length - validMessages.length} invalid messages`);
+      console.log(`Returning ${validMessages.length} valid messages`);
       data.data = validMessages;
     }
     

@@ -3,7 +3,7 @@ export interface WeddingMessage {
   name: string;
   content: string;
   createdAt: string;
-  updatedAt: string; // Changed back to updatedAt to match API response
+  updateAt: string; // Changed to match spreadsheet column name
 }
 
 export interface WeddingInvitationData {
