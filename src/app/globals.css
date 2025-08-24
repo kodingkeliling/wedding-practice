@@ -1,26 +1,142 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-red: #DC2626;
+  --secondary-pink: #EC4899;
+  --accent-black: #000000;
+  --background-white: #FFFFFF;
+  --text-dark: #1F2937;
+  --light-pink: #FCE7F3;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-white);
+  color: var(--text-dark);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-pink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-pink);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-red);
+}
+
+/* Wedding specific styles */
+.wedding-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+.wedding-decorative {
+  font-family: 'Great Vibes', cursive;
+}
+
+.wedding-body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Gradient backgrounds */
+.wedding-gradient {
+  background: linear-gradient(135deg, var(--primary-red) 0%, var(--secondary-pink) 100%);
+}
+
+.wedding-gradient-light {
+  background: linear-gradient(135deg, var(--light-pink) 0%, #FFFFFF 100%);
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button styles */
+@layer components {
+  .wedding-btn {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 active:scale-95;
+  }
+
+  .wedding-btn-primary {
+    @apply wedding-btn bg-red-600 text-white hover:bg-red-700 shadow-lg hover:shadow-xl;
+  }
+
+  .wedding-btn-secondary {
+    @apply wedding-btn bg-pink-500 text-white hover:bg-pink-600 shadow-lg hover:shadow-xl;
+  }
+
+  .wedding-btn-outline {
+    @apply wedding-btn border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white;
+  }
 }
