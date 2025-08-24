@@ -2,9 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const SPREADSHEET_API_URL = process.env.NEXT_PUBLIC_SPREADSHEET_API_URL || 'https://script.google.com/macros/s/AKfycbxC9TDCUaBS9xybpn-4sfr_UKl92lbGRdh3YHLF9CjA5wnz_0SVNMPKgQ30aGiCqBlxvA/exec';
 
-export async function GET(request: NextRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { timestamp: string } }
+) {
   try {
-    console.log('Fetching messages from:', SPREADSHEET_API_URL);
+    console.log('Fetching messages with timestamp:', params.timestamp);
     
     // Add timestamp to Google Apps Script URL to bypass any caching
     const timestamp = Date.now();

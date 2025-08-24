@@ -2,9 +2,9 @@ import { WeddingInvitationData, CommentFormData, WeddingMessage } from '@/types'
 
 export async function fetchWeddingMessages(): Promise<WeddingInvitationData> {
   try {
-    // Add cache-busting parameter to ensure fresh data
+    // Add timestamp to force fresh data and bypass Vercel cache
     const timestamp = Date.now();
-    const response = await fetch(`/api/messages?t=${timestamp}`, {
+    const response = await fetch(`/api/messages/${timestamp}`, {
       method: 'GET',
       headers: {
         'Accept-Language': 'id-ID',
