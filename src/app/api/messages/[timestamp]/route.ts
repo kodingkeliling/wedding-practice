@@ -26,15 +26,11 @@ export async function GET(
       cache: 'no-store', // Disable Next.js caching
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response ok:', response.ok);
-
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('Received data:', data);
     
     // Filter out invalid messages with looser criteria
     if (data.data && Array.isArray(data.data)) {

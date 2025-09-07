@@ -2,9 +2,17 @@
 
 import { motion } from 'framer-motion';
 import { Heart, Calendar, MapPin } from 'lucide-react';
+import { IoIosArrowDown } from 'react-icons/io';
+import { useSearchParams } from 'next/navigation';
 import { weddingDetails } from '@/config/wedding';
 
 export default function Hero() {
+  const searchParams = useSearchParams();
+  const inviteParam = searchParams.get('invite')?.trim();
+  const inviteText = inviteParam && inviteParam.length > 0
+    ? `Dengan sukacita kami mengundang ${inviteParam} untuk hadir di acara pernikahan kami.`
+    : 'Dengan sukacita kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.';
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with gradient overlay */}
@@ -45,7 +53,7 @@ export default function Hero() {
           className="mb-8"
         >
           <p className="text-lg md:text-xl text-gray-600 mb-6 max-w-2xl mx-auto">
-            {weddingDetails.description}
+            {inviteText}
           </p>
         </motion.div>
 
@@ -53,30 +61,30 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 mb-8 w-full px-3"
         >
-          <div className="flex items-center justify-center gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-            <Calendar className="w-6 h-6 text-red-500" />
+          <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200/70 w-full max-w-sm mx-auto">
+            <Calendar className="w-6 h-6 text-red-500 mt-0.5" />
             <div className="text-left">
-              <p className="text-sm text-gray-500">Tanggal & Waktu</p>
-              <p className="font-semibold text-gray-800">{weddingDetails.weddingDate}</p>
-              <p className="font-semibold text-gray-800">{weddingDetails.weddingTime}</p>
+              <p className="text-xs md:text-sm text-gray-500">Tanggal & Waktu</p>
+              <p className="text-sm md:text-base font-semibold text-gray-800">{weddingDetails.weddingDate}</p>
+              <p className="text-sm md:text-base font-semibold text-gray-800">{weddingDetails.weddingTime}</p>
             </div>
           </div>
           
-          <div className="flex items-center justify-center gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-            <MapPin className="w-6 h-6 text-red-500" />
+          <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200/70 w-full max-w-sm mx-auto">
+            <MapPin className="w-6 h-6 text-red-500 mt-0.5" />
             <div className="text-left">
-              <p className="text-sm text-gray-500">Lokasi</p>
-              <p className="font-semibold text-gray-800">{weddingDetails.venue}</p>
+              <p className="text-xs md:text-sm text-gray-500">Lokasi</p>
+              <p className="text-sm md:text-base font-semibold text-gray-800">{weddingDetails.venue}</p>
             </div>
           </div>
           
-          <div className="flex items-center justify-center gap-3 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-lg">
-            <Heart className="w-6 h-6 text-red-500" />
+          <div className="flex items-start gap-3 p-4 bg-white rounded-xl shadow-md ring-1 ring-gray-200/70 w-full max-w-sm mx-auto">
+            <Heart className="w-6 h-6 text-red-500 mt-0.5" />
             <div className="text-left">
-              <p className="text-sm text-gray-500">Kehadiran</p>
-              <p className="font-semibold text-gray-800">Konfirmasi</p>
+              <p className="text-xs md:text-sm text-gray-500">Kehadiran</p>
+              <p className="text-sm md:text-base font-semibold text-gray-800">Konfirmasi</p>
             </div>
           </div>
         </motion.div>
@@ -103,9 +111,7 @@ export default function Hero() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
       >
         <div className="animate-bounce">
-          <div className="w-6 h-10 border-2 border-red-500 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-red-500 rounded-full mt-2 animate-pulse"></div>
-          </div>
+          <IoIosArrowDown size={36} className="text-red-500" />
         </div>
       </motion.div>
     </section>
